@@ -1,0 +1,68 @@
+﻿@model WebApplication1.Models.Piwkowanie
+
+@{
+//ViewBag.Title = "Alokocholizacja";
+}
+
+<h2>Alokocholizacja</h2>
+
+<div>
+    @*<h4>Piwkowanie</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        @*<div> <input type="button" value="Rozpocznij piwną ucztę" onclick="location.href='@Url.Action("Create", "User")'" /></div>*@
+        <div>
+        <label for="movie">Na ile osób zarezerwować stolik : </label>
+        <input id="movie" type="number" value="0" />
+        <input type="button" class="btn btn-primary" value="Zarezerwuj stolik" onclick="Rezerwuj()" /></div> 
+        <div>Dostępne piwa</div>
+            @{
+
+                foreach (var piwo in Model.podajMenu())
+                {
+                    <div>@piwo.Nazwa  <input type="button" class="btn btn-primary" value="Wypij" onclick="wypij('@piwo.Nazwa')" /></div>
+                }
+            }
+        
+    </dl>
+    <div>Toast : <div id="toast"> </div></div>
+    <div>Koszt imprezy: <div id="koszt"></div></div>
+    <div>Do uregulowania zostalo : </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<script>
+    function wypij(nazwa) {
+
+        $.ajax({
+            type: "GET",
+            url: "/Bar/Wypij", // the URL of the controller action method
+            data: {"nazwa" : nazwa ,"ilosc":1}, // optional data
+            success: function (data) {
+                $("#koszt").text(data[0]);
+                $("#toast").text(data[1]);  
+            },
+            error: function (req, status, error) {
+                // do something with error   
+            }
+        });
+    }
+
+    function rezerwuj() {
+       var iloscOsob = $("#movie").val();
+        $.ajax({
+            type: "GET",
+            url: "/Bar/Wypij", // the URL of the controller action method
+            data: { "ilosc": iloscOsob }, // optional data
+            success: function (data) {
+                $("#koszt").text(data[0]);
+                $("#toast").text(data[1]);
+            },
+            error: function (req, status, error) {
+                // do something with error   
+            }
+        });
+    }
+</script>
