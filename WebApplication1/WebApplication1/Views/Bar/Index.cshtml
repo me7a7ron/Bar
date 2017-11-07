@@ -17,14 +17,15 @@
             <input type="button" class="btn btn-primary" value="Zarezerwuj stolik" onclick="Rezerwuj()" />
         </div>
         <div style="display:none;" id="KelnerMowi"></div>
-        <div>Dostępne piwa</div>
-        @{
-
-            foreach (var piwo in Model.podajMenu())
-            {
-                <div>@piwo.Nazwa  <input id="@piwo.Nazwa" type="number" value="0" /></div>
+        <h2>Dostępne piwa</h2>
+        <ul id="listapiw">           
+            @{
+                foreach (var piwo in Model.podajMenu())
+                {
+                    <li>@piwo.Nazwa<input id="@piwo.Nazwa" type="number" value="0" /></li>
+                }
             }
-        }
+        </ul>
         <input type="button" id="zamowBtn" class="btn btn-primary" value="Zamów" onclick="zamow()" />
     </dl>
     <div>Toast : <div id="toast"> </div></div>
@@ -37,13 +38,31 @@
 </p>
 <script>
     function zamow() {
-        var zubr = $("#Zubr").val();
-        var tuskie = $("#Tuskie").val();
-        var ksiazece = $("#Ksiazece").val();
+        //var zubr = $("#Zubr").val();
+        //var tuskie = $("#Tuskie").val();
+        //var ksiazece = $("#Ksiazece").val();
+        var test;
+        var nazwa;
+        var sztuk;
+        for (var i = 0; i < $('#listapiw li').length; i++) {
+            nazwa = $('#listapiw li')[i].textContent
+            sztuk =  $("#" + $('#listapiw li')[i].textContent).val();
+            if (test == null) {
+                test = {
+                    piwa: {
+                        [nazwa]: sztuk
+                    }
+                }
+            }
+            else {
+                test.piwa[nazwa] = sztuk;
+            }
+            $("#" + $('#listapiw li')[i].textContent).val();
+        }
         $.ajax({
             type: "GET",
             url: "/Bar/Wypij", // the URL of the controller action method
-            data: { "nazwa": nazwa, "ilosc": 1 }, // optional data
+            data: { test }, // optional data
             success: function (data) {
                 $("#koszt").text(data[0]);
                 $("#toast").text(data[1]);
