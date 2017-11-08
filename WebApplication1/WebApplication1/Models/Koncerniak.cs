@@ -22,6 +22,7 @@ namespace WebApplication1.Models
             RodzajPiwa rodzaj = RodzajPiwa.Koncerniak;
         }
 
+        public Koncerniak () : base() { }
         public decimal Zamow(int ilosc)
         {
             return Cena * ilosc ;

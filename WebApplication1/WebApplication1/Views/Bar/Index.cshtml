@@ -18,7 +18,7 @@
         </div>
         <div style="display:none;" id="KelnerMowi"></div>
         <h2>Dostępne piwa</h2>
-        <ul id="listapiw">           
+        <ul id="listapiw">
             @{
                 foreach (var piwo in Model.podajMenu())
                 {
@@ -41,42 +41,54 @@
         //var zubr = $("#Zubr").val();
         //var tuskie = $("#Tuskie").val();
         //var ksiazece = $("#Ksiazece").val();
-        var test;
+        var test1;
         var nazwa;
         var sztuk;
         for (var i = 0; i < $('#listapiw li').length; i++) {
-            nazwa = $('#listapiw li')[i].textContent
+            nazwa = "\"" + $('#listapiw li')[i].textContent + "\"";
             sztuk =  $("#" + $('#listapiw li')[i].textContent).val();
-            if (test == null) {
-                test = {
-                    piwa: {
-                        [nazwa]: sztuk
-                    }
-                }
+            if (test1 == null) {
+                test1 ={}
+                test1.piwa = {} ;
+                test1.piwa[nazwa] = sztuk;
             }
-            else {
-                test.piwa[nazwa] = sztuk;
-            }
-            $("#" + $('#listapiw li')[i].textContent).val();
+        
+    else {
+                test1.piwa[nazwa] = sztuk;
+                
+    }
+    //$("#" + $('#listapiw li')[i].textContent).val();
         }
-        $.ajax({
-            type: "GET",
-            url: "/Bar/Wypij", // the URL of the controller action method
-            data: { test }, // optional data
-            success: function (data) {
-                $("#koszt").text(data[0]);
-                $("#toast").text(data[1]);
-            },
-            error: function (req, status, error) {
-                // do something with error
-            }
-        });
+
+        var testowy = {
+            "piwa": [
+              { "Nazwa": "Zubr", "Sztuk": 3 },
+              { "Nazwa": "Tyskie", "Sztuk":2 },
+              { "Nazwa": "Ksiazece", "Sztuk": 1 }
+            ]
+
+        };
+
+    $.ajax({
+        type: "POST",
+        url: "/Bar/Wypij", // the URL of the controller action method
+        //contentType: 'application/json',
+        datatype:"json",
+        data: { testy: JSON.stringify(testowy) }, // optional data
+        success: function (data) {
+            $("#koszt").text(data[0]);
+            $("#toast").text(data[1]);
+        },
+        error: function (req, status, error) {
+            // do something with error
+        }
+    });
     }
 
     function rezerwuj() {
         var iloscOsob = $("#movie").val();
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/Bar/Wypij", // the URL of the controller action method
             data: { "ilosc": iloscOsob }, // optional data
             success: function (data) {

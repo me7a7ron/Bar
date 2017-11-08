@@ -25,7 +25,12 @@ namespace WebApplication1.Models
             get { return _cena; }
             private set { _cena = value; }
         }
-
+        public Piwo() { }
+        public Piwo(string pNazwa)
+        {
+            Nazwa = pNazwa;
+            Cena = 4.32M;
+        }
         public Piwo(string pNazwa,decimal pCena)
         {
             Nazwa = pNazwa;
