@@ -22,7 +22,7 @@ namespace WebApplication1.Models
         {
             piwka =  new List<IAlkochol>()
             {
-                 new Koncerniak("Zubr"), new Koncerniak("Tuskie"), new Koncerniak("Ksiazece")
+                 new Koncerniak("Zubr",4.53M), new Koncerniak("Tyskie",6.54M), new Koncerniak("Ksiazece",4.54M)
             };
             Rachunek = 0;
 
@@ -40,8 +40,7 @@ namespace WebApplication1.Models
 
         public decimal podajAlko(string nazwa,int ilosc)
         {
-            Rachunek = Rachunek + piwka.FirstOrDefault(x => x.Nazwa == nazwa).Cena * ilosc;
-            return Rachunek;
+            return piwka.FirstOrDefault(x => x.Nazwa == nazwa).Cena * ilosc;            
         }
         
         public List<IAlkochol> podajMenu()

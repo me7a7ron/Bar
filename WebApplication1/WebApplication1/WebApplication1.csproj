@@ -213,6 +213,7 @@
     <Compile Include="Models\Piwkowanie.cs" />
     <Compile Include="Models\Piwo.cs" />
     <Compile Include="Models\StalyKlient.cs" />
+    <Compile Include="Models\Zamowienie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

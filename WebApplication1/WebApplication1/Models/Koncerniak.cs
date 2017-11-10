@@ -23,6 +23,7 @@ namespace WebApplication1.Models
         }
 
         public Koncerniak () : base() { }
+        public Koncerniak(string _Nazwa, decimal _Cena) : base(_Nazwa, _Cena) { }
         public decimal Zamow(int ilosc)
         {
             return Cena * ilosc ;

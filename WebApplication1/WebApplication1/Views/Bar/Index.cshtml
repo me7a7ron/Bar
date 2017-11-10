@@ -7,7 +7,7 @@
 <h2>Alokocholizacja</h2>
 
 <div>
-    @*<h4>Piwkowanie</h4>*@
+   
     <hr />
     <dl class="dl-horizontal">
         @*<div> <input type="button" value="Rozpocznij piwną ucztę" onclick="location.href='@Url.Action("Create", "User")'" /></div>*@
@@ -22,7 +22,7 @@
             @{
                 foreach (var piwo in Model.podajMenu())
                 {
-                    <li>@piwo.Nazwa<input id="@piwo.Nazwa" type="number" value="0" /></li>
+                    <li ><div><span>@piwo.Nazwa</span><input id="@piwo.Nazwa" type="number" value="0" class="cena" /></div></li>
                 }
             }
         </ul>
@@ -38,51 +38,33 @@
 </p>
 <script>
     function zamow() {
-        //var zubr = $("#Zubr").val();
-        //var tuskie = $("#Tuskie").val();
-        //var ksiazece = $("#Ksiazece").val();
         var test1;
         var nazwa;
         var sztuk;
         for (var i = 0; i < $('#listapiw li').length; i++) {
-            nazwa = "\"" + $('#listapiw li')[i].textContent + "\"";
-            sztuk =  $("#" + $('#listapiw li')[i].textContent).val();
+            nazwa = $('#listapiw li')[i].textContent;
+            sztuk = $("#" + $('#listapiw li')[i].textContent).val();
             if (test1 == null) {
-                test1 ={}
-                test1.piwa = {} ;
-                test1.piwa[nazwa] = sztuk;
+                test1 = []
             }
-        
-    else {
-                test1.piwa[nazwa] = sztuk;
-                
-    }
-    //$("#" + $('#listapiw li')[i].textContent).val();
+                test1[i] = {  "Nazwa" : nazwa, "Sztuk" : sztuk };
         }
 
-        var testowy = {
-            "piwa": [
-              { "Nazwa": "Zubr", "Sztuk": 3 },
-              { "Nazwa": "Tyskie", "Sztuk":2 },
-              { "Nazwa": "Ksiazece", "Sztuk": 1 }
-            ]
-
-        };
-
-    $.ajax({
-        type: "POST",
-        url: "/Bar/Wypij", // the URL of the controller action method
-        //contentType: 'application/json',
-        datatype:"json",
-        data: { testy: JSON.stringify(testowy) }, // optional data
-        success: function (data) {
-            $("#koszt").text(data[0]);
-            $("#toast").text(data[1]);
-        },
-        error: function (req, status, error) {
-            // do something with error
-        }
-    });
+       
+        $.ajax({
+            type: "POST",
+            url: "/Bar/Wypij", // the URL of the controller action method
+            //contentType: 'application/json',
+            datatype: "json",
+            data: { testy: JSON.stringify(test1) }, // optional data
+            success: function (data) {
+                $("#koszt").text(data[0]);
+                $("#toast").text(data[1]);
+            },
+            error: function (req, status, error) {
+                // do something with error
+            }
+        });
     }
 
     function rezerwuj() {
@@ -103,3 +85,9 @@
         $("#KelnerMowi").text("Co dla Pana");
     }
 </script>
+<style>
+    .cena{
+        width:2em;
+        margin-left:5em;
+    }
+</style>
